@@ -4,7 +4,7 @@
   "description": "Votine Website",
   "main": "app.js",
   "scripts": {
-    "start":"nodemon app.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Jarvis1010/votemachine#readme",
   "dependencies": {
+    "body-parser": "^1.17.0",
     "express": "^4.14.1"
   },
   "devDependencies": {
