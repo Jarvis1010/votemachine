@@ -1,6 +1,8 @@
+var dbconn = require('../data/dbconnection.js');
 var hotelData=require('../data/hotel-data.json');
 
 module.exports.hotelsGetAll = function(req, res){
+    var db = dbconn.get();
     var offset =parseInt(req.query.offset)||0;
     var count = parseInt(req.query.count)||5;
     console.log(offset,count);
