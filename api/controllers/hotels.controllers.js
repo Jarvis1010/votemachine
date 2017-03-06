@@ -36,5 +36,20 @@ module.exports.hotelsGetOne = function(req, res){
 
 module.exports.hotelsAddOne = function(req, res){
     var db = dbconn.get();
-    res.json(req.body);
+    var collection=db.collection('hotels');
+    var newHotel;
+    
+    if(req.body&&req.body.name&&req.body.stars){
+        newHotel = req.body;
+        newHotel.stars=parseInt(newHotel.stars,10);
+        
+        collection.insertOne(newHotel,function(err,response){
+            if(!err){
+                res.status(201).json(response.ops);
+            }
+        });
+        
+    }else{
+        res.status(400).json({message:"Required data missing from body"});
+    }
 };
