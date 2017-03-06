@@ -1,23 +1,40 @@
 var dbconn = require('../data/dbconnection.js');
+var ObjectId = require('mongodb').ObjectId;
 var hotelData=require('../data/hotel-data.json');
 
 module.exports.hotelsGetAll = function(req, res){
     var db = dbconn.get();
+    var collection=db.collection('hotels');
+    
     var offset =parseInt(req.query.offset)||0;
     var count = parseInt(req.query.count)||5;
-    console.log(offset,count);
     
-    var returnData = hotelData.slice(offset,offset+count);
+    collection.find()
+                .skip(offset)
+                .limit(count)
+                .toArray(function(err,docs){
+        if(!err){
+            res.json(docs);
+        }
+    });
     
-    res.json(returnData);
 };
 
 module.exports.hotelsGetOne = function(req, res){
+    var db = dbconn.get();
+    var collection=db.collection('hotels');
+    
     var hotelID = req.params.hotelId;
-    var thisHotel = hotelData[hotelID];
-    res.json(thisHotel);
+    console.log(hotelID);
+    collection.findOne({_id:ObjectId(hotelID)},function(err,docs){
+        if(!err){
+            res.json(docs);
+        }
+    });
+    
 };
 
 module.exports.hotelsAddOne = function(req, res){
+    var db = dbconn.get();
     res.json(req.body);
 };
