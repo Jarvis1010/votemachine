@@ -2,21 +2,39 @@ var mongoose=require('mongoose');
 var Hotel = mongoose.model('Hotel');
 var ObjectId = require('mongodb').ObjectId;
 
+var runGeoQuery=function(req,res){
+    var lng = parseFloat(req.query.lng);
+    var lat = parseFloat(req.query.lat);
+    
+    var point={type:"Point",coordinates:[lng,lat]};
+    var geoOptions = {spherical:true, maxDistance:2000,num:5};
+    
+    Hotel.geoNear(point,geoOptions,function(err,results,stats){
+        if(!err){
+            res.json(results);
+        }
+    });
+};
 
 module.exports.hotelsGetAll = function(req, res){
     
     var offset =parseInt(req.query.offset)||0;
     var count = parseInt(req.query.count)||5;
     
-    Hotel.find()
-            .skip(offset)
-            .limit(count)
-            .exec(function(err,hotels){
-                if(!err){
-                    console.log("Found "+hotels.length+" hotels");
-                    res.json(hotels);
-                }
-            });
+    if(req.query&&req.query.lat&&req.query.lng){
+        runGeoQuery(req,res);
+        
+    }else{
+        Hotel.find()
+                .skip(offset)
+                .limit(count)
+                .exec(function(err,hotels){
+                    if(!err){
+                        console.log("Found "+hotels.length+" hotels");
+                        res.json(hotels);
+                    }
+                });
+    }        
 };
 
 module.exports.hotelsGetOne = function(req, res){
