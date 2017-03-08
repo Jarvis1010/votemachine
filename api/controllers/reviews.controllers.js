@@ -9,9 +9,16 @@ module.exports.reviewsGetAll = function(req, res){
     .findById(hotelID)
     .select('reviews')
     .exec(function(err,docs){
-        if(!err){
-            res.json(docs.reviews);
+        var response = {status:200,"message":docs.reviews};
+        if(err){
+            response.status=500;
+            response.message=err;
+        }else if(!docs){
+            response.status=404;
+            response.message="Hotel ID not found";
         }
+            
+        res.status(response.status).json(response.message);
     });    
 };
     
