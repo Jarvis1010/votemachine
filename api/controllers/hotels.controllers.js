@@ -74,22 +74,38 @@ module.exports.hotelsGetOne = function(req, res){
     
 };
 
+var splitArray = function(input){
+    var output;
+    if(input&&input.length>0){
+        output=input.split(";");
+    }else{
+        output=[];
+    }
+    return output;
+};
+
 module.exports.hotelsAddOne = function(req, res){
     
-    var newHotel;
-    
-    if(req.body&&req.body.name&&req.body.stars){
-        newHotel = req.body;
-        newHotel.stars=parseInt(newHotel.stars,10);
-        
-        /*
-        collection.insertOne(newHotel,function(err,response){
-            if(!err){
-                res.status(201).json(response.ops);
-            }
-        });
-        */
-    }else{
-        res.status(400).json({message:"Required data missing from body"});
-    }
+   Hotel
+    .create({
+       name:req.body.name,
+       description:req.body.description,
+       stars:parseInt(req.body.stars),
+       services:splitArray(req.body.services),
+       photos:splitArray(req.body.photos),
+       currency:req.body.currency,
+       location:{
+           address:req.body.address,
+           coordinates:[parseFloat(req.body.lng),parseFloat(req.body.lat)]
+       }
+    },
+    function(err,hotel){
+        if(err){
+            console.log("error writing to database", err);
+            res.status(400).json(err)
+        }else{
+            res.status(201).json(hotel)
+        }
+    });
+   
 };

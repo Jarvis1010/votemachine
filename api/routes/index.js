@@ -7,20 +7,18 @@ var ctrReviews=require('../controllers/reviews.controllers.js');
 //hotel routes
 router
 .route('/hotels')
-.get(ctrHotels.hotelsGetAll);
+.get(ctrHotels.hotelsGetAll)
+.post(ctrHotels.hotelsAddOne);
 
 router
 .route('/hotels/:hotelId')
 .get(ctrHotels.hotelsGetOne);
 
-router
-.route('/hotels/new')
-.post(ctrHotels.hotelsAddOne);
-
 //reviews routes
 router
 .route('/hotels/:hotelId/reviews')
-.get(ctrReviews.reviewsGetAll);
+.get(ctrReviews.reviewsGetAll)
+.post(ctrReviews.reviewsAddOne);
 
 router
 .route('/hotels/:hotelId/reviews/:reviewId')
