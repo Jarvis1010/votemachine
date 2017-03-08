@@ -149,3 +149,16 @@ module.exports.hotelsUpdateOne = function(req, res){
         
     });
 };
+
+module.exports.hotelsDeleteOne = function(req, res){
+    var hotelID = req.params.hotelId;
+    
+    Hotel.findByIdAndRemove(hotelID)
+        .exec(function(err,hotel){
+            if(err){
+                res.status(404).json(err);
+            }else{
+                res.status(204).json();
+            }
+        });
+};
