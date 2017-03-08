@@ -51,7 +51,6 @@ module.exports.hotelsGetAll = function(req, res){
 
 module.exports.hotelsGetOne = function(req, res){
    
-    
     var hotelID = req.params.hotelId;
     
     Hotel
@@ -108,4 +107,45 @@ module.exports.hotelsAddOne = function(req, res){
         }
     });
    
+};
+
+module.exports.hotelsUpdateOne = function(req, res){
+    var hotelID = req.params.hotelId;
+    
+    Hotel
+    .findById(hotelID)
+    .select("-reviews -rooms")
+    .exec(function(err,doc){
+        var response = {status:200,"message":doc};
+        if(err){
+            response.status=500;
+            response.message=err;
+        }else if(!doc){
+            response.status=404;
+            response.message="Hotel ID not found";
+        }
+        if(response.status!=200){
+           res.status(response.status).json(response.message); 
+        }else{    
+            doc.name=req.body.name;
+            doc.description=req.body.description;
+            doc.stars=parseInt(req.body.stars);
+            doc.services=splitArray(req.body.services);
+            doc.photos=splitArray(req.body.photos);
+            doc.currency=req.body.currency;
+            doc.location={
+                address:req.body.address,
+                coordinates:[parseFloat(req.body.lng),parseFloat(req.body.lat)]
+            };
+            
+            doc.save(function(err,hotelUpdated){
+                if(err){
+                   res.status(500).json(err); 
+                }else{
+                    res.status(204).json();
+                }
+            });
+        }    
+        
+    });
 };
