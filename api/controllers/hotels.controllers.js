@@ -53,6 +53,7 @@ module.exports.hotelsGetOne = function(req, res){
    
     var hotelID = req.params.hotelId;
     
+    
     Hotel
     .findById(hotelID)
     .exec(function(err,doc){
