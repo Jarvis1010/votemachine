@@ -8,7 +8,7 @@ var ctrUsers=require('../controllers/users.controllers.js');
 //hotel routes
 router
 .route('/hotels')
-.get(ctrHotels.hotelsGetAll)
+.get(ctrUsers.authenticate,ctrHotels.hotelsGetAll)
 .post(ctrHotels.hotelsAddOne);
 
 router
