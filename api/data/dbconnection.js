@@ -1,6 +1,6 @@
 var MongoClient=require('mongodb').MongoClient;
 
-var dburl='mongodb://localhost:27017/meanhotel'
+var dburl=process.env.MONGOLAB_URI;
 
 var _connection=null;
 

@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="en" ng-app="meanhotel">
+<html lang="en" ng-app="votingapp">
     <head>
         <meta charset="utf-8">
-        <title>MEAN Hotel</title>
+        <title>Voting App</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link href="css/bootstrap.min.css" rel="stylesheet"/>
         <link href="css/custom.css" rel="stylesheet"/>
-        
     </head>
     <body>
-        
-        <div ng-view></div>
-        
+        <nav-bar></nav-bar>
+        <div class="container">
+            <div ng-view></div>
+        </div>
         <footer class="footer">
             <div class="container">
                 <p class="text-muted text-center">
@@ -21,14 +21,16 @@
         </footer>
         
         <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.min.js"></script>
         <script src="angular-app/app.js"></script>
-        <script src="angular-app/hotel-list/hotel-list.controller.js"></script>
+        <!--<script src="angular-app/hotel-list/hotel-list.controller.js"></script>
         <script src="angular-app/hotel-display/hotel-display.controller.js"></script>
         <script src="angular-app/hotel-data-factory/hotel-data.factory.js"></script>
-        <script src="angular-app/hotel-rating/hotel-rating.directive.js"></script>
+        <script src="angular-app/hotel-rating/hotel-rating.directive.js"></script>-->
         <script src="angular-app/register/register.controller.js"></script>
+        <script src="angular-app/navigation-directive/navigation-directive.js"></script>
     </body>
 </html>
 

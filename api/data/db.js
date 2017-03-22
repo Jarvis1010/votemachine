@@ -1,5 +1,5 @@
 var mongoose=require('mongoose');
-var dburl='mongodb://localhost:27017/meanhotel'
+var dburl=process.env.MONGOLAB_URI;
 
 mongoose.connect(dburl);
 
@@ -12,7 +12,7 @@ mongoose.connection.on('disconnected',function(){
 });
 
 mongoose.connection.on('error',function(err){
-    console.log("mongoose connection error: "+err);
+    console.log("mongoose connection error: "+err, dburl);
 });
 
 process.on('SIGTERM',function(){
