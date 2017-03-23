@@ -25,46 +25,29 @@ module.exports.pollsAddOne = function(req, res){
 };
 
 
-
-/*
 module.exports.pollsGetAll = function(req, res){
     
-    var offset =parseInt(req.query.offset)||0;
-    var count = parseInt(req.query.count)||5;
-    var maxCount=10;
-    
-    if(req.query&&req.query.lat&&req.query.lng){
-        if(isNaN(req.query.lat)||isNaN(req.query.lng)){
-            res.status(400).json({"message":"Incorrect Coordinates"});
-            return; 
-        }
-        runGeoQuery(req,res);
-    }else{
-        if(count>maxCount){
-            res.status(400).json({"message":"Limit of "+maxCount+" exceeded"});
-            return;
-        }
-        Hotel.find()
-                .skip(offset)
-                .limit(count)
-                .exec(function(err,hotels){
+        Poll.find({creator:req.user})
+                .exec(function(err,polls){
                     if(!err){
-                        console.log("Found "+hotels.length+" hotels");
-                        res.json(hotels);
+                        console.log("Found "+polls.length+" hotels");
+                        var pollTitles=polls.map(function(a){return a.title;});
+                        res.json({creator:polls[0].creator,pollTitles:pollTitles});
                     }else{
                         res.status(500).json(err);
                     }
                 });
-    }        
+         
 };
+
 
 module.exports.pollsGetOne = function(req, res){
    
-    var hotelID = req.params.hotelId;
+    var creator = req.params.creator;
+    var title =req.params.title;
     
-    
-    Hotel
-    .findById(hotelID)
+    Poll
+    .findOne({creator:creator,title:title})
     .exec(function(err,doc){
         var response = {status:200,"message":doc};
         if(err){
@@ -83,7 +66,7 @@ module.exports.pollsGetOne = function(req, res){
     
 };
 
-
+/*
 module.exports.hotelsUpdateOne = function(req, res){
     var hotelID = req.params.hotelId;
     

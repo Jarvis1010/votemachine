@@ -35,6 +35,12 @@ function config($httpProvider,$routeProvider){
             restricted:true
         }
     })
+    .when('/:creator/:title',{
+        template:'<h1>poll details will go here</h1>',
+        access:{
+            restricted:false
+        }
+    })
     .otherwise({
         redirect:'/'
     });

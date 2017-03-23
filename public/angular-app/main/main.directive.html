@@ -12,7 +12,7 @@
         <h1 class="text-center">My Polls</h1>
     
         <div class="list-group">
-          <a ng-repeat="poll in vm.polls track by $index" href="#" class="list-group-item">{{poll}}</a>
+          <a ng-repeat="poll in vm.polls track by $index" href="#/{{vm.creator}}/{{poll}}" class="list-group-item">{{poll}}</a>
         </div>
     </div>
 </div>

@@ -6,11 +6,14 @@ var ctrReviews=require('../controllers/reviews.controllers.js');
 var ctrUsers=require('../controllers/users.controllers.js');
 var ctrPolls=require('../controllers/polls.controllers.js');
 
+//poll routes
 router
 .route('/polls')
-//.get(ctrUsers.authenticate,ctrPolls.hotelsGetAll)
+.get(ctrUsers.authenticate,ctrPolls.pollsGetAll)
 .post(ctrUsers.authenticate,ctrPolls.pollsAddOne);
 
+router.route('/:creator/:title')
+.get(ctrPolls.pollsGetOne);
 
 //hotel routes
 router

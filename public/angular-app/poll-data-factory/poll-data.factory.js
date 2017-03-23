@@ -1,16 +1,14 @@
-angular.module('meanhotel').factory('hotelDataFactory',hotelDataFactory);
+angular.module('votingapp').factory('pollDataFactory',pollDataFactory);
 
-function hotelDataFactory($http){
+function pollDataFactory($http){
     return{
-        hotelList:hotelList,
-        hotelDisplay:hotelDisplay,
-        postReview:postReview
+        pollList:pollList
     };
     
     
     
-    function hotelList(){
-        return $http.get('/api/hotels').then(complete).catch(failed);
+    function pollList(){
+        return $http.get('/api/polls').then(complete).catch(failed);
     }
     function hotelDisplay(id){
         return $http.get('/api/hotels/'+id).then(complete).catch(failed);

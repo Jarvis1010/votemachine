@@ -1,9 +1,18 @@
 angular.module('votingapp').controller('MainController',MainController);
 
-function MainController(Authfactory){
+function MainController(Authfactory,pollDataFactory){
     var vm=this;
     
-    vm.polls=['Cras justo odio','Dapibus ac facilisis in','Morbi leo risus','Porta ac consectetur ac','Vestibulum at eros','Cras justo odio','Dapibus ac facilisis in'];
+    vm.polls=[];
+    
+    if(Authfactory.isLoggedIn){
+        vm.loggedInUser='';
+        pollDataFactory.pollList().then(function(res){
+            
+            vm.creator=res.data.creator;
+            vm.polls=res.data.pollTitles;
+        });
+    }
     
     vm.isLoggedIn=function(){
         if(Authfactory.isLoggedIn){

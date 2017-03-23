@@ -3,7 +3,11 @@ angular.module('votingapp').controller('LoginController',LoginController);
 function LoginController($http,$location,$window,Authfactory,jwtHelper){
     var vm=this;
     
+    vm.loggedinUser='';
     
+    if(Authfactory.isLoggedIn){
+        updateUserName();
+    }
     
     vm.isLoggedIn=function(){
         if(Authfactory.isLoggedIn){
@@ -24,9 +28,7 @@ function LoginController($http,$location,$window,Authfactory,jwtHelper){
                if(res.data.success){
                     $window.sessionStorage.token=res.data.token;
                     Authfactory.isLoggedIn=true;
-                    var token = $window.sessionStorage.token;
-                    var decodedToken = jwtHelper.decodeToken(token);
-                    vm.loggedinUser=decodedToken.username;
+                    updateUserName();
                }    
             }).catch(function(err){
                 console.log(err);
@@ -43,5 +45,11 @@ function LoginController($http,$location,$window,Authfactory,jwtHelper){
     vm.isActiveTab=function(url){
         var currentPath=$location.path().split('/')[1];
         return (url=== currentPath? 'active':"");
+    }
+    
+    function updateUserName(){
+        var token = $window.sessionStorage.token;
+        var decodedToken = jwtHelper.decodeToken(token);
+        vm.loggedinUser=decodedToken.username;
     }
 }
