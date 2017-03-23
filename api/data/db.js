@@ -1,6 +1,7 @@
 var mongoose=require('mongoose');
 var dburl=process.env.MONGOLAB_URI;
 
+
 mongoose.connect(dburl);
 
 mongoose.connection.on('connected',function(){
@@ -12,7 +13,7 @@ mongoose.connection.on('disconnected',function(){
 });
 
 mongoose.connection.on('error',function(err){
-    console.log("mongoose connection error: "+err, dburl);
+    console.log("mongoose connection error: "+ err);
 });
 
 process.on('SIGTERM',function(){
@@ -31,3 +32,4 @@ process.once('SIGUSR2',function(){
 
 require('./hotels.model.js');
 require('./users.model.js');
+require('./polls.model.js');

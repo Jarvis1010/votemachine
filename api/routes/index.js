@@ -4,6 +4,13 @@ var router = express.Router();
 var ctrHotels=require('../controllers/hotels.controllers.js');
 var ctrReviews=require('../controllers/reviews.controllers.js');
 var ctrUsers=require('../controllers/users.controllers.js');
+var ctrPolls=require('../controllers/polls.controllers.js');
+
+router
+.route('/polls')
+//.get(ctrUsers.authenticate,ctrPolls.hotelsGetAll)
+.post(ctrUsers.authenticate,ctrPolls.pollsAddOne);
+
 
 //hotel routes
 router

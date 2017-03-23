@@ -18,6 +18,7 @@ function RegisterController($http){
                     vm.message="Successful registration, please login";
                     vm.error='';
                 }).catch(function(err){
+                    vm.error=err.statusText;
                     console.log(err);
                 });
             }

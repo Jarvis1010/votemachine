@@ -29,6 +29,8 @@ function config($httpProvider,$routeProvider){
     })
     .when('/new',{
         templateUrl:'angular-app/new/new-poll.html',
+        controller:NewpollController,
+        controllerAs:'vm',
         access:{
             restricted:true
         }
