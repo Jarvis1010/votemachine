@@ -1,0 +1,18 @@
+<div class="row text-center">
+    <div class="col-xs-12">
+        <h1 class="special-font">Dashboard</h1>
+    </div>
+    <div class="col-sm-6 col-sm-offset-3 col-xs-12">
+        <h4>You currently have {{vm.polls.length}} active polls</h4>
+        <a class="btn btn-lg btn-primary" href="#/new">Make New Poll</a>
+    </div>
+</div>
+<div class="footer row">
+    <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+        <h1 class="text-center">My Polls</h1>
+    
+        <div class="list-group">
+          <a ng-repeat="poll in vm.polls track by $index" href="#" class="list-group-item">{{poll}}</a>
+        </div>
+    </div>
+</div>

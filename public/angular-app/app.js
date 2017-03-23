@@ -7,6 +7,8 @@ function config($httpProvider,$routeProvider){
    
     $routeProvider.when('/',{
         templateUrl:'angular-app/main/main.html',
+        controller:MainController,
+        controllerAs:"vm",
         access:{
             restricted:false
         }
@@ -25,19 +27,16 @@ function config($httpProvider,$routeProvider){
             restricted:true
         }
     })
+    .when('/new',{
+        templateUrl:'angular-app/new/new-poll.html',
+        access:{
+            restricted:true
+        }
+    })
     .otherwise({
         redirect:'/'
     });
-     /*$routeProvider.when('/hotels',{
-        templateUrl:'angular-app/hotel-list/hotels.html',
-        controller:HotelsController,
-        controllerAs:'vm'
-    })
-    .when('/hotels/:id',{
-        templateUrl:'angular-app/hotel-display/hotel.html',
-        controller:HotelController,
-        controllerAs:'vm'
-    })*/
+     
 }
 
 function run($rootScope,$location,$window,Authfactory){
