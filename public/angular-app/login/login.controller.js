@@ -1,6 +1,6 @@
 angular.module('votingapp').controller('LoginController',LoginController);
 
-function LoginController($http,$location,$window,Authfactory,jwtHelper){
+function LoginController($route,$http,$location,$window,Authfactory,jwtHelper){
     var vm=this;
     
     vm.loggedinUser='';
@@ -40,6 +40,7 @@ function LoginController($http,$location,$window,Authfactory,jwtHelper){
         delete $window.sessionStorage.token;
         Authfactory.isLoggedIn=false;
         $location.path('/');
+        $route.reload();
     };
     
     vm.isActiveTab=function(url){

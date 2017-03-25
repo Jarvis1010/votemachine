@@ -14,8 +14,7 @@ function MainController(Authfactory,pollDataFactory){
         });
     }else{
         pollDataFactory.getPopular().then(function(res){
-            //console.log(res.data);
-            vm.creator=res.data[0].creator;
+           
             vm.polls=res.data;
         });
     }
