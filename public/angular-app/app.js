@@ -36,7 +36,9 @@ function config($httpProvider,$routeProvider){
         }
     })
     .when('/:creator/:title',{
-        template:'<h1>poll details will go here</h1>',
+        templateUrl:'angular-app/poll-display/poll.html',
+        controller:PollController,
+        controllerAs:'vm',
         access:{
             restricted:false
         }

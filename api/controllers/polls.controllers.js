@@ -30,7 +30,7 @@ module.exports.pollsGetAll = function(req, res){
         Poll.find({creator:req.user})
                 .exec(function(err,polls){
                     if(!err){
-                        console.log("Found "+polls.length+" hotels");
+                        console.log("Found "+polls.length+" polls");
                         var pollTitles=polls.map(function(a){return a.title;});
                         res.json({creator:polls[0].creator,pollTitles:pollTitles});
                     }else{
@@ -55,7 +55,7 @@ module.exports.pollsGetOne = function(req, res){
             response.message=err;
         }else if(!doc){
             response.status=404;
-            response.message="Hotel ID not found";
+            response.message="Poll not found";
         }
             
         res.status(response.status).json(response.message);
