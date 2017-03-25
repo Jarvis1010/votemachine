@@ -12,6 +12,12 @@ function MainController(Authfactory,pollDataFactory){
             vm.creator=res.data.creator;
             vm.polls=res.data.pollTitles;
         });
+    }else{
+        pollDataFactory.getPopular().then(function(res){
+            //console.log(res.data);
+            vm.creator=res.data[0].creator;
+            vm.polls=res.data;
+        });
     }
     
     vm.isLoggedIn=function(){

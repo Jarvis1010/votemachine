@@ -15,6 +15,9 @@ router
 router.route('/:creator/:title')
 .get(ctrPolls.pollsGetOne);
 
+router.route('/popular')
+.get(ctrPolls.pollsGetPopular);
+
 //hotel routes
 router
 .route('/hotels')

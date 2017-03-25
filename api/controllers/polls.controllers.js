@@ -40,6 +40,21 @@ module.exports.pollsGetAll = function(req, res){
          
 };
 
+module.exports.pollsGetPopular = function(req, res){
+        
+        Poll.aggregate([
+                    {$project: {title:"$title",creator:"$creator",totalOptionCount: { $sum: "$options.count"}}},
+                     //{ $sort : { '$totalOptionCount' : 1 }},
+                     { $limit : 8 }
+                   ],function(err,polls){
+                    if(!err){
+                        res.json(polls);
+                    }else{
+                        res.status(500).json(err);
+                    }
+                });
+         
+};
 
 module.exports.pollsGetOne = function(req, res){
    
