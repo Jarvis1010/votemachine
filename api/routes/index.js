@@ -13,7 +13,8 @@ router
 .post(ctrUsers.authenticate,ctrPolls.pollsAddOne);
 
 router.route('/:creator/:title')
-.get(ctrPolls.pollsGetOne);
+.get(ctrPolls.pollsGetOne)
+.put(ctrPolls.pollUpdateOne);
 
 router.route('/popular')
 .get(ctrPolls.pollsGetPopular);

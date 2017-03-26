@@ -4,7 +4,8 @@ function pollDataFactory($http){
     return{
         pollList:pollList,
         getPoll:getPoll,
-        getPopular:getPopular
+        getPopular:getPopular,
+        pollVote:pollVote
     };
     
     
@@ -21,8 +22,8 @@ function pollDataFactory($http){
         return $http.get('/api/popular').then(complete).catch(failed);
     }
     
-    function hotelDisplay(id){
-        return $http.get('/api/hotels/'+id).then(complete).catch(failed);
+    function pollVote(href,data){
+        return $http.put(href,data).then(complete).catch(failed);
     }
     
     

@@ -81,13 +81,13 @@ module.exports.pollsGetOne = function(req, res){
     
 };
 
-/*
-module.exports.hotelsUpdateOne = function(req, res){
-    var hotelID = req.params.hotelId;
+
+module.exports.pollUpdateOne = function(req, res){
+    //console.log(req.body);
     
-    Hotel
-    .findById(hotelID)
-    .select("-reviews -rooms")
+    
+    Poll
+    .findById(req.body._id)
     .exec(function(err,doc){
         var response = {status:200,"message":doc};
         if(err){
@@ -95,21 +95,15 @@ module.exports.hotelsUpdateOne = function(req, res){
             response.message=err;
         }else if(!doc){
             response.status=404;
-            response.message="Hotel ID not found";
+            response.message="Poll ID not found";
         }
         if(response.status!=200){
            res.status(response.status).json(response.message); 
         }else{    
-            doc.name=req.body.name;
-            doc.description=req.body.description;
-            doc.stars=parseInt(req.body.stars);
-            doc.services=splitArray(req.body.services);
-            doc.photos=splitArray(req.body.photos);
-            doc.currency=req.body.currency;
-            doc.location={
-                address:req.body.address,
-                coordinates:[parseFloat(req.body.lng),parseFloat(req.body.lat)]
-            };
+            
+            doc.creator=req.body.creator;
+            doc.title=req.body.title;
+            doc.options=req.body.options;
             
             doc.save(function(err,hotelUpdated){
                 if(err){
@@ -123,6 +117,7 @@ module.exports.hotelsUpdateOne = function(req, res){
     });
 };
 
+/*
 module.exports.hotelsDeleteOne = function(req, res){
     var hotelID = req.params.hotelId;
     
