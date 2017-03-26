@@ -44,7 +44,7 @@ module.exports.pollsGetPopular = function(req, res){
         
         Poll.aggregate([
                     {$project: {title:"$title",creator:"$creator",totalOptionCount: { $sum: "$options.count"}}},
-                     //{ $sort : { '$totalOptionCount' : 1 }},
+                     { $sort : { totalOptionCount : -1 }},
                      { $limit : 8 }
                    ],function(err,polls){
                     if(!err){

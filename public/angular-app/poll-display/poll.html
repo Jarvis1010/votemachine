@@ -5,12 +5,17 @@
 </div>
 
 <div ng-if="!vm.errorMessage" class="row text-center">
-    <div class="col-xs-12">
-        <h1>{{vm.poll.title}}</h1>
-    </div> 
-    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
-        <div class="list-group">
-          <button ng-click="vm.vote($index)" type="button" class="list-group-item" ng-repeat="option in vm.poll.options track by $index">{{option.option}}</button>
+    <div ng-if="!vm.alreadyVoted">
+        <div class="col-xs-12">
+            <h1>{{vm.poll.title}}</h1>
+        </div> 
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
+            <div class="list-group">
+              <button ng-click="vm.vote($index)" type="button" class="list-group-item" ng-repeat="option in vm.poll.options track by $index">{{option.option}}</button>
+            </div>
         </div>
+    </div>
+    <div ng-if="vm.alreadyVoted">
+        <h1>You already voted in this poll.  Poll data will be displayed eventually</h1>
     </div>
 </div>
