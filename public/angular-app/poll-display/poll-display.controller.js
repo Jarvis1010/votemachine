@@ -1,9 +1,22 @@
 angular.module('votingapp').controller('PollController',PollController);
 
-function PollController($window,pollDataFactory, $routeParams,$route){
+function PollController($location,$window,pollDataFactory, $routeParams,$route,jwtHelper){
     var vm=this;
     var creator=$routeParams.creator;
     var title=encodeURIComponent($routeParams.title);
+   
+    vm.isMyPoll=false;
+    
+    function checkPollOwner(){
+        var token = $window.sessionStorage.token;
+        var decodedToken = jwtHelper.decodeToken(token);
+        
+        if(decodedToken.hasOwnProperty('username')&&decodedToken.username===vm.poll.creator){
+           vm.isMyPoll= true; 
+        }else{
+            vm.isMyPoll= false;
+        }    
+    }
    
     google.charts.load('current', {'packages':['corechart']});
     
@@ -13,7 +26,7 @@ function PollController($window,pollDataFactory, $routeParams,$route){
         }else{
             vm.poll =res.data;
             vm.drawChart(vm.poll);
-            
+            checkPollOwner();
         }
     });
     
@@ -26,6 +39,18 @@ function PollController($window,pollDataFactory, $routeParams,$route){
         vm.alreadyVoted=false;
     }
  
+    vm.deletePoll=function(){
+        var creator=vm.poll.creator;
+        var title = vm.poll.title;
+        pollDataFactory.deletePoll(creator,title).then(function(res){
+            if(res.status!=204){
+            vm.errorMessage=res.data;
+        }else{
+            $location.path('/');
+            
+        }
+        });
+    };
     
     vm.drawChart=function(poll) {
         // Create the data table.

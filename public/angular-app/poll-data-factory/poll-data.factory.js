@@ -5,7 +5,8 @@ function pollDataFactory($http){
         pollList:pollList,
         getPoll:getPoll,
         getPopular:getPopular,
-        pollVote:pollVote
+        pollVote:pollVote,
+        deletePoll:deletePoll
     };
     
     
@@ -18,7 +19,7 @@ function pollDataFactory($http){
         return $http.get('/api/'+creator+"/"+poll).then(complete).catch(failed);
     }
     
-    function getPopular(creator,poll){
+    function getPopular(){
         return $http.get('/api/popular').then(complete).catch(failed);
     }
     
@@ -26,7 +27,9 @@ function pollDataFactory($http){
         return $http.put(href,data).then(complete).catch(failed);
     }
     
-    
+    function deletePoll(creator,poll){
+        return $http.delete('/api/'+creator+"/"+poll).then(complete).catch(failed);
+    }
     
     function complete (res){
         return res;

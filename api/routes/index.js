@@ -14,7 +14,8 @@ router
 
 router.route('/:creator/:title')
 .get(ctrPolls.pollsGetOne)
-.put(ctrPolls.pollUpdateOne);
+.put(ctrPolls.pollUpdateOne)
+.delete(ctrUsers.authenticate,ctrPolls.pollsDeleteOne);
 
 router.route('/popular')
 .get(ctrPolls.pollsGetPopular);

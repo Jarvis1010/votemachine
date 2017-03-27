@@ -15,7 +15,13 @@
             </div>
         </div>
     </div>
-    <div ng-if="vm.alreadyVoted" class="col-sm-8 col-sm-offset-2">
+    <div ng-if="vm.alreadyVoted" class="col-md-8 col-md-offset-2 col-xs-12">
         <div id="chart_div"></div>
+    </div>
+    <div ng-show="vm.isMyPoll" class="row">
+        <div class="col-md-12 padded">
+            <button ng-click="vm.deletePoll()" class="btn btn-lg btn-danger">Delete</button>
+            <button class="btn btn-lg btn-default">Edit</button>
+        </div>    
     </div>
 </div>

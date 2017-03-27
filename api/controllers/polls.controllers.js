@@ -117,17 +117,19 @@ module.exports.pollUpdateOne = function(req, res){
     });
 };
 
-/*
-module.exports.hotelsDeleteOne = function(req, res){
-    var hotelID = req.params.hotelId;
+
+module.exports.pollsDeleteOne = function(req, res){
     
-    Hotel.findByIdAndRemove(hotelID)
-        .exec(function(err,hotel){
+    var query = {title:req.params.title,creator:req.user};
+    console.log(query);
+    Poll.find(query)
+        .remove()
+        .exec(function(err,poll){
             if(err){
                 res.status(404).json(err);
             }else{
+              
                 res.status(204).json();
             }
         });
 };
-*/
