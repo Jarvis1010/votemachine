@@ -18,7 +18,6 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
         vm.alreadyVoted=false;
     }
     
-    
     pollDataFactory.getPoll(creator,title).then(function(res){
         if(res.status!=200){
             vm.errorMessage=res.data;
@@ -50,7 +49,8 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
     vm.deletePoll=function(){
         var creator=vm.poll.creator;
         var title = vm.poll.title;
-        pollDataFactory.deletePoll(creator,title).then(function(res){
+        var href="/api/poll"+$window.location.href.split('#')[1];
+        pollDataFactory.deletePoll(href).then(function(res){
             if(res.status!=204){
             vm.errorMessage=res.data;
         }else{
@@ -61,7 +61,17 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
     };
     
     vm.savePoll=function(){
-        
+        var href="/api/poll"+$window.location.href.split('#')[1];
+        pollDataFactory.updatePoll(href,vm.poll).then(function(res){
+            //console.log(res);
+            if(res.status!=204){
+                vm.message=res.data;
+            }else{
+                vm.toggleEditMode();
+                $route.reload();
+               
+            }
+        });
     };
     
     vm.drawChart=function(poll) {
@@ -85,7 +95,7 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
     
     vm.vote=function(index){
         vm.poll.options[index].count++;
-        var href="/api"+$window.location.href.split('#')[1];
+        var href="/api/poll"+$window.location.href.split('#')[1];
         pollDataFactory.pollVote(href,vm.poll).then(function(res){
             //console.log(res);
             if(res.status!=204){

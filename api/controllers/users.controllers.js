@@ -25,6 +25,8 @@ module.exports.login=function(req,res){
     var username =req.body.username;
     var password=req.body.password;
     
+    console.log(req.body);
+    
     User.findOne({username:username})
         .exec(function(err,user){
             if(err){

@@ -83,7 +83,6 @@ module.exports.pollsGetOne = function(req, res){
 
 
 module.exports.pollUpdateOne = function(req, res){
-    //console.log(req.body);
     
     
     Poll
@@ -97,6 +96,44 @@ module.exports.pollUpdateOne = function(req, res){
             response.status=404;
             response.message="Poll ID not found";
         }
+        if(response.status!=200){
+           res.status(response.status).json(response.message); 
+        }else{    
+            
+            doc.creator=req.body.creator;
+            doc.title=req.body.title;
+            doc.options=req.body.options;
+            
+            doc.save(function(err,hotelUpdated){
+                if(err){
+                   res.status(500).json(err); 
+                }else{
+                    res.status(204).json();
+                }
+            });
+        }    
+        
+    });
+};
+
+module.exports.pollUpdate = function(req, res){
+    
+    
+    Poll
+    .findById(req.body._id)
+    .exec(function(err,doc){
+        var response = {status:200,"message":doc};
+        if(err){
+            response.status=500;
+            response.message=err;
+        }else if(!doc){
+            response.status=404;
+            response.message="Poll ID not found";
+        }else if(doc.creator!=req.user){
+            response.status=401;
+            response.message="Invalid Authorization";
+        }
+        
         if(response.status!=200){
            res.status(response.status).json(response.message); 
         }else{    

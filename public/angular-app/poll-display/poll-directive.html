@@ -5,7 +5,7 @@
           <label>Options</label>
           <div ng-repeat="option in vm.poll.options track by $index" class="form-group">
             <div class="row">
-              <div class="col-xs-11">
+              <div class="col-xs-8 col-xs-offset-1">
                 <input type="text" class="form-control"  ng-model="vm.poll.options[$index].option">
               </div>
               <div class="col-xs-1">

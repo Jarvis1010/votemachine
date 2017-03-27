@@ -24,6 +24,7 @@ function LoginController($route,$http,$location,$window,Authfactory,jwtHelper){
                 password:vm.password
             };
             
+            
             $http.post('/api/users/login',user).then(function(res){
                if(res.data.success){
                     $window.sessionStorage.token=res.data.token;
