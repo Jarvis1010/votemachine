@@ -1,24 +1,23 @@
 angular.module('votingapp').controller('PollController',PollController);
 
 function PollController($location,$window,pollDataFactory, $routeParams,$route,jwtHelper){
+    //start loading google charts
+    google.charts.load('current', {'packages':['corechart']});
+    
     var vm=this;
     var creator=$routeParams.creator;
     var title=encodeURIComponent($routeParams.title);
-   
-    vm.isMyPoll=false;
+    var votedPolls=pollsAlreadyVoted();
     
-    function checkPollOwner(){
-        var token = $window.sessionStorage.token;
-        var decodedToken = jwtHelper.decodeToken(token);
-        
-        if(decodedToken.hasOwnProperty('username')&&decodedToken.username===vm.poll.creator){
-           vm.isMyPoll= true; 
-        }else{
-            vm.isMyPoll= false;
-        }    
-    }
+    vm.editMode=false;
+    vm.isMyPoll=false;
    
-    google.charts.load('current', {'packages':['corechart']});
+    if(votedPolls[$window.location.href]){
+        vm.alreadyVoted=true;
+    }else{
+        vm.alreadyVoted=false;
+    }
+    
     
     pollDataFactory.getPoll(creator,title).then(function(res){
         if(res.status!=200){
@@ -30,14 +29,23 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
         }
     });
     
-    var votedPolls=pollsAlreadyVoted();
+    vm.toggleEditMode=function(){
+        vm.editMode=!vm.editMode;
+    };
     
-   
-    if(votedPolls[$window.location.href]){
-        vm.alreadyVoted=true;
-    }else{
-        vm.alreadyVoted=false;
-    }
+    vm.cancelEdit=function(){
+        $route.reload();
+    };
+    
+    vm.addOption=function(){
+        vm.poll.options.push({option:'',count:0});
+    };
+    
+    vm.deleteOption=function(index){
+        if(vm.poll.options.length>2){
+            vm.poll.options.splice(index,1);
+        }    
+    };
  
     vm.deletePoll=function(){
         var creator=vm.poll.creator;
@@ -50,6 +58,10 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
             
         }
         });
+    };
+    
+    vm.savePoll=function(){
+        
     };
     
     vm.drawChart=function(poll) {
@@ -70,10 +82,6 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
         chart.draw(data, options);
       };
     
-    function pollsAlreadyVoted(){
-        
-        return JSON.parse($window.localStorage['polls'] || '{}');
-    }
     
     vm.vote=function(index){
         vm.poll.options[index].count++;
@@ -92,5 +100,20 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
         });
     };
     
+    function pollsAlreadyVoted(){
+        
+        return JSON.parse($window.localStorage['polls'] || '{}');
+    }
+    
+    function checkPollOwner(){
+        var token = $window.sessionStorage.token;
+        var decodedToken = jwtHelper.decodeToken(token);
+        
+        if(decodedToken.hasOwnProperty('username')&&decodedToken.username===vm.poll.creator){
+           vm.isMyPoll= true; 
+        }else{
+            vm.isMyPoll= false;
+        }    
+    }
     
 }

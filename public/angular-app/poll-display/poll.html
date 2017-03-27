@@ -5,7 +5,7 @@
 </div>
 
 <div ng-if="!vm.errorMessage" class="row text-center">
-    <div ng-if="!vm.alreadyVoted">
+    <div ng-if="!vm.alreadyVoted && !vm.editMode">
         <div class="col-xs-12">
             <h1>{{vm.poll.title}}</h1>
         </div> 
@@ -15,13 +15,16 @@
             </div>
         </div>
     </div>
-    <div ng-if="vm.alreadyVoted" class="col-md-8 col-md-offset-2 col-xs-12">
+    <div ng-if="vm.alreadyVoted && !vm.editMode" class="col-md-8 col-md-offset-2 col-xs-12">
         <div id="chart_div"></div>
     </div>
-    <div ng-show="vm.isMyPoll" class="row">
+    <div ng-show="vm.isMyPoll && !vm.editMode" class="row">
         <div class="col-md-12 padded">
             <button ng-click="vm.deletePoll()" class="btn btn-lg btn-danger">Delete</button>
-            <button class="btn btn-lg btn-default">Edit</button>
+            <button ng-click="vm.toggleEditMode()"class="btn btn-lg btn-default">Edit</button>
         </div>    
+    </div>
+    <div ng-if="vm.editMode">
+        <edit-poll></edit-poll>
     </div>
 </div>
