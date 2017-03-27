@@ -26,13 +26,13 @@ module.exports.pollsAddOne = function(req, res){
 
 
 module.exports.pollsGetAll = function(req, res){
-    
+        
         Poll.find({creator:req.user})
                 .exec(function(err,polls){
                     if(!err){
                         console.log("Found "+polls.length+" polls");
                         var pollTitles=polls.map(function(a){return a.title;});
-                        res.json({creator:polls[0].creator,pollTitles:pollTitles});
+                        res.json({creator:req.user,pollTitles:pollTitles});
                     }else{
                         res.status(500).json(err);
                     }

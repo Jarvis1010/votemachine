@@ -7,7 +7,7 @@ var optionSchema=new mongoose.Schema({
 
 var pollSchema = new mongoose.Schema({
     creator:{type:String,required:true},
-    title:{type:String,required:true},
+    title:{type:String,required:true,unique:true},
     options:[optionSchema]
 });
 

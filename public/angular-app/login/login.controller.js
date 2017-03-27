@@ -29,6 +29,7 @@ function LoginController($route,$http,$location,$window,Authfactory,jwtHelper){
                     $window.sessionStorage.token=res.data.token;
                     Authfactory.isLoggedIn=true;
                     updateUserName();
+                    $location.path('/');
                }    
             }).catch(function(err){
                 console.log(err);

@@ -5,26 +5,47 @@ function PollController($window,pollDataFactory, $routeParams,$route){
     var creator=$routeParams.creator;
     var title=encodeURIComponent($routeParams.title);
    
+    google.charts.load('current', {'packages':['corechart']});
     
     pollDataFactory.getPoll(creator,title).then(function(res){
         if(res.status!=200){
             vm.errorMessage=res.data;
         }else{
             vm.poll =res.data;
+            vm.drawChart(vm.poll);
             
         }
     });
     
-    var votedPolls=getVotedPolls();
+    var votedPolls=pollsAlreadyVoted();
     
+   
     if(votedPolls[$window.location.href]){
         vm.alreadyVoted=true;
     }else{
         vm.alreadyVoted=false;
     }
+ 
     
+    vm.drawChart=function(poll) {
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Poll Option');
+        data.addColumn('number', 'Votes');
+        var pollData = poll.options.map(function(option){
+            return [option.option,option.count];
+        });
+        
+        data.addRows(pollData);
+
+        // Set chart options
+        var options = {'title':vm.poll.title,'width':'100%','height':400};
+
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      };
     
-    function getVotedPolls(){
+    function pollsAlreadyVoted(){
         
         return JSON.parse($window.localStorage['polls'] || '{}');
     }
@@ -40,6 +61,8 @@ function PollController($window,pollDataFactory, $routeParams,$route){
                 votedPolls[$window.location.href]=true;
                 $window.localStorage['polls'] = JSON.stringify(votedPolls);
                 vm.alreadyVoted=true;
+               $route.reload();
+               
             }
         });
     };
