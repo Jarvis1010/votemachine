@@ -25,12 +25,9 @@ module.exports.login=function(req,res){
     var username =req.body.username;
     var password=req.body.password;
     
-    console.log(req.body);
-    
     User.findOne({username:username})
         .exec(function(err,user){
-            if(err){
-                console.log(err);
+            if(err||user==null){
                 res.status(400).json(err);
             }else{
                 if(bcrypt.compareSync(password,user.password)){

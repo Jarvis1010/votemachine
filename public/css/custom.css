@@ -1,14 +1,10 @@
-html{
-    position:relative;
-    min-height:100%;
-}
 body{
     margin-bottom:90px;
 }
 .padded{
     padding-top:20px;
 }
-.footer{
+.poll-area{
     margin-top:20px;
     background-color:#f5f5f5;
     color:black;

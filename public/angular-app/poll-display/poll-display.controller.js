@@ -63,7 +63,6 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
     vm.savePoll=function(){
         var href="/api/poll"+$window.location.href.split('#')[1];
         pollDataFactory.updatePoll(href,vm.poll).then(function(res){
-            //console.log(res);
             if(res.status!=204){
                 vm.message=res.data;
             }else{
@@ -117,7 +116,7 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
     
     function checkPollOwner(){
         var token = $window.sessionStorage.token;
-        var decodedToken = jwtHelper.decodeToken(token);
+        var decodedToken = token?jwtHelper.decodeToken(token):{};
         
         if(decodedToken.hasOwnProperty('username')&&decodedToken.username===vm.poll.creator){
            vm.isMyPoll= true; 

@@ -29,11 +29,13 @@ function LoginController($route,$http,$location,$window,Authfactory,jwtHelper){
                if(res.data.success){
                     $window.sessionStorage.token=res.data.token;
                     Authfactory.isLoggedIn=true;
+                    vm.error='';
                     updateUserName();
                     $location.path('/');
                }    
             }).catch(function(err){
                 console.log(err);
+                vm.error='Invalid Username or Password';
             });
         }
     };

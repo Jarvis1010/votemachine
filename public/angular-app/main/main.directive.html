@@ -1,18 +1,15 @@
-<div class="row text-center">
-    <div class="col-xs-12">
-        <h1 class="special-font">Dashboard</h1>
-    </div>
+<header class="row text-center">
+    <h1 class="col-xs-12 special-font">Dashboard</h1>
     <div class="col-sm-6 col-sm-offset-3 col-xs-12">
         <h4>You currently have {{vm.polls.length}} active polls</h4>
         <a class="btn btn-lg btn-primary" href="#/new">Make New Poll</a>
     </div>
-</div>
-<div class="footer row">
-    <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+</header>
+<section class="poll-area row">
+    <div class="col-xs-10 col-xs-offset-1">
         <h1 class="text-center">My Polls</h1>
-    
-        <div class="list-group">
+        <nav class="list-group">
           <a ng-repeat="poll in vm.polls track by $index" ng-href="#/{{vm.creator}}/{{poll | escape}}" class="list-group-item">{{poll}}</a>
-        </div>
+        </nav>
     </div>
-</div>
+</section>
