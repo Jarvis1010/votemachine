@@ -1,7 +1,5 @@
 <div ng-if="vm.errorMessage" class="row text-center">
-    <div class="col-xs-12">
-        <h1>{{vm.errorMessage}}</h1>
-    </div>    
+    <h1 class="col-xs-12 alert alert-danger" role="alert">{{vm.errorMessage}}</h1>
 </div>
 
 <div ng-if="!vm.errorMessage" class="row text-center">
@@ -18,7 +16,7 @@
     <div ng-show="vm.alreadyVoted && !vm.editMode" class="col-md-8 col-md-offset-2 col-xs-12">
         <div id="chart_div"></div>
     </div>
-    <div ng-show="vm.isMyPoll && !vm.editMode" class="row">
+    <div ng-if="vm.isMyPoll && !vm.editMode" class="row">
         <div class="col-md-12 padded">
             <button ng-click="vm.deletePoll()" class="btn btn-lg btn-danger">Delete</button>
             <button ng-click="vm.toggleEditMode()"class="btn btn-lg btn-default">Edit</button>
@@ -27,4 +25,18 @@
     <div ng-if="vm.editMode">
         <edit-poll></edit-poll>
     </div>
+    <div ng-if="vm.message" class="row text-center">
+        <h1 class="col-xs-12 alert alert-danger" role="alert">{{vm.message}}</h1>
+    </div>
+    <footer ng-if="!vm.editMode" class="row">
+        <h1 class="col-xs-4 col-sm-2 col-sm-offset-3 text-center">
+            <a href='https://twitter.com/intent/tweet?hashtags=polls&text={{vm.window.location.href | escape}}' target="_blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+        </h1>
+        <h1 class="col-xs-4 col-sm-2 text-center">
+            <a href='https://www.facebook.com/sharer/sharer.php?u={{vm.window.location.href | escape}}' target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+        </h1>
+        <h1 class="col-xs-4 col-sm-2 text-center">
+            <a href='mailto:?subject=Hey Check Out This Poll&body={{vm.window.location.href | escape}}'><span class="glyphicon glyphicon-envelope"></span></a>
+        </h1>
+    </footer>
 </div>

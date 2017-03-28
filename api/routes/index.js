@@ -19,7 +19,6 @@ router.route('/poll/:creator/:title')
 router.route('/popular')
 .get(ctrPolls.pollsGetPopular);
 
-
 //authentication
 router
 .route('/users/register')

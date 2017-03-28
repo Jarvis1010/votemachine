@@ -1,10 +1,10 @@
 angular.module('votingapp').controller('PollController',PollController);
 
 function PollController($location,$window,pollDataFactory, $routeParams,$route,jwtHelper){
-    //start loading google charts
-    google.charts.load('current', {'packages':['corechart']});
-    
+
     var vm=this;
+    vm.window=$window;
+
     var creator=$routeParams.creator;
     var title=encodeURIComponent($routeParams.title);
     var votedPolls=pollsAlreadyVoted();
@@ -18,21 +18,18 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
         vm.alreadyVoted=false;
     }
     
-    pollDataFactory.getPoll(creator,title).then(function(res){
-        if(res.status!=200){
-            vm.errorMessage=res.data;
-        }else{
-            vm.poll =res.data;
-            vm.drawChart(vm.poll);
-            checkPollOwner();
-        }
-    });
+    if(!vm.editMode){
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(getData);
+    }
     
+   
     vm.toggleEditMode=function(){
         vm.editMode=!vm.editMode;
     };
     
     vm.cancelEdit=function(){
+        vm.toggleEditMode();
         $route.reload();
     };
     
@@ -55,7 +52,6 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
             vm.errorMessage=res.data;
         }else{
             $location.path('/');
-            
         }
         });
     };
@@ -91,7 +87,6 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
         chart.draw(data, options);
       };
     
-    
     vm.vote=function(index){
         vm.poll.options[index].count++;
         var href="/api/poll"+$window.location.href.split('#')[1];
@@ -103,15 +98,32 @@ function PollController($location,$window,pollDataFactory, $routeParams,$route,j
                 votedPolls[$window.location.href]=true;
                 $window.localStorage['polls'] = JSON.stringify(votedPolls);
                 vm.alreadyVoted=true;
-               $route.reload();
+                $route.reload();
                
             }
         });
     };
     
+    
     function pollsAlreadyVoted(){
         
         return JSON.parse($window.localStorage['polls'] || '{}');
+    }
+    
+    function getData(){
+        pollDataFactory.getPoll(creator,title).then(function(res){
+            if(res.status!=200){
+                vm.errorMessage=res.data;
+            }else{
+                vm.poll =res.data;
+                console.log(vm.editMode);
+                if(!vm.editMode){
+                    vm.drawChart(vm.poll);
+                }
+                checkPollOwner();
+            }
+        });
+         
     }
     
     function checkPollOwner(){

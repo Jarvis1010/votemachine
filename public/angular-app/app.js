@@ -21,12 +21,6 @@ function config($httpProvider,$routeProvider){
         controller:RegisterController,
         controllerAs:'vm'
     })
-    .when('/profile',{
-        templateUrl:'angular-app/profile/profile.html',
-        access:{
-            restricted:true
-        }
-    })
     .when('/new',{
         templateUrl:'angular-app/new/new-poll.html',
         controller:NewpollController,
